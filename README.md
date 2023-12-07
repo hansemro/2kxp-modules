@@ -11,16 +11,23 @@ Building A Kernel Module for Siglent SDS2000X+
 [PC] $ git submodule update --init --recursive
 ```
 
-2. Get telnet shell access to scope (on 1.3.9R10/R12) if not already.
+2. Apply linux script patch (to fix multiple definitions of yylloc):
 
-3. Get kernel image version:
+```
+[PC] $ cd linux
+[PC] $ patch -Nup1 -i ../Fix-multiple-yylloc-definition-error.patch
+```
+
+3. Get telnet shell access to scope (on 1.3.9R10/R12) if not already.
+
+4. Get kernel image version:
 
 ```
 [scope] # uname -r
 3.19.0-01-svn186079
 ```
 
-4. Copy kernel image (`/dev/mtd1`) and kernel config (`/proc/config.gz`):
+5. Copy kernel image (`/dev/mtd1`) and kernel config (`/proc/config.gz`):
 
 ```
 [scope] # mount -o rw,remount /usr/bin/siglent/usr/mass_storage/U-disk0
@@ -28,20 +35,20 @@ Building A Kernel Module for Siglent SDS2000X+
 [scope] # cp /proc/config.gz /usr/bin/siglent/usr/mass_storage/U-disk0/
 ```
 
-5. Locate address of `_text` from /proc/kallsyms:
+6. Locate address of `_text` from /proc/kallsyms:
 
 ```
 [scope] # grep _text /proc/kallsyms | head -n1
 40008000 T _text
 ```
 
-6. Use [extract-symvers](https://github.com/bol-van/extract-symvers-ng) to extract Module.symvers from kernel image and save it as `./Module.symvers.scope`:
+7. Use [extract-symvers](https://github.com/bol-van/extract-symvers-ng) to extract Module.symvers from kernel image and save it as `./Module.symvers.scope`:
 
 ```
 [PC] $ python2 extract-symvers.py -b 32 -B 0x40008000 mtd1.bin > Module.symvers.scope
 ```
 
-7. Source Vivado 2017.2 shell environment (provides arm toolchain) and set `ARCH` and `CROSS_COMPILE` environment variables:
+8. Source Vivado 2017.2 shell environment (provides arm toolchain) and set `ARCH` and `CROSS_COMPILE` environment variables:
 
 ```
 [PC] $ source /opt/Xilinx/Vivado/2017.2/settings64.sh
@@ -49,7 +56,7 @@ Building A Kernel Module for Siglent SDS2000X+
 [PC] $ export ARCH=arm
 ```
 
-8. Extract `config.gz` as .config under `./linux/` kernel source directory, and then prepare kernel headers and scripts:
+9. Extract `config.gz` as .config under `./linux/` kernel source directory, and then prepare kernel headers and scripts:
 
 ```
 [PC] $ cd ./linux
@@ -57,7 +64,7 @@ Building A Kernel Module for Siglent SDS2000X+
 [PC] $ make silentoldconfig prepare headers_install scripts
 ```
 
-9. Run `make` inside this repo directory to build the kernel module (`hello.ko`):
+10. Run `make` inside this repo directory to build the kernel module (`hello.ko`):
 
 ```
 [PC] $ cd ..
