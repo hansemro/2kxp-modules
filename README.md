@@ -3,7 +3,7 @@ Building A Kernel Module for Siglent SDS2000X+
 
 # Build steps
 
-1. Clone this repo with submodules:
+1. Clone this repo with [linux-xlnx](https://github.com/Xilinx/linux-xlnx) submodule:
 
 ```
 [PC] $ git clone [this_git_repo] 2kxp_test_module
