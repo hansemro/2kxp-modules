@@ -6,9 +6,8 @@ KERNEL_SOURCE ?= linux
 all: hello.ko
 
 hello.ko:
-	rm -f $(KERNEL_SOURCE)/Module.symvers Module.symvers
+	rm -f $(KERNEL_SOURCE)/Module.symvers
 	cp Module.symvers.scope $(KERNEL_SOURCE)/Module.symvers
-	cp Module.symvers.scope ./Module.symvers
 	make -C $(KERNEL_SOURCE)/ M=$(PWD) modules
 	modprobe --dump-modversions hello.ko
 
