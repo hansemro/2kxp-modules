@@ -48,10 +48,10 @@ Building A Kernel Module for Siglent SDS2000X+
 [PC] $ python2 extract-symvers.py -b 32 -B 0x40008000 mtd1.bin > Module.symvers.scope
 ```
 
-8. Source Vivado 2017.2 shell environment (provides arm toolchain) and set `ARCH` and `CROSS_COMPILE` environment variables:
+8. Source Xilinx SDK (2017.2) shell environment (provides arm toolchain) and set `ARCH` and `CROSS_COMPILE` environment variables:
 
 ```
-[PC] $ source /opt/Xilinx/Vivado/2017.2/settings64.sh
+[PC] $ source /opt/Xilinx/SDK/2017.2/settings64.sh
 [PC] $ export CROSS_COMPILE=arm-xilinx-linux-gnueabi-
 [PC] $ export ARCH=arm
 ```
