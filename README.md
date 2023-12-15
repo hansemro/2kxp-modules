@@ -55,13 +55,13 @@ of a [script](https://github.com/bol-van/extract-symvers-ng).
 40008000 T _text
 ```
 
-7. Use [extract-symvers](https://github.com/bol-van/extract-symvers-ng) to extract Module.symvers from kernel image and save it as `./Module.symvers.scope`:
+7. Use [extract-symvers](https://github.com/bol-van/extract-symvers-ng) to extract Module.symvers from kernel image and save it as `./Module.symvers.scope` under the root of this repo's directory:
 
 ```
 [PC] $ python2 extract-symvers.py -b 32 -B 0x40008000 mtd1.bin > Module.symvers.scope
 ```
 
-8. Source Xilinx SDK (2017.2) shell environment (provides arm toolchain) and set `ARCH` and `CROSS_COMPILE` environment variables:
+8. Source Xilinx SDK (2017.2) shell environment (provides arm toolchain), and set `ARCH` and `CROSS_COMPILE` environment variables:
 
 ```
 [PC] $ source /opt/Xilinx/SDK/2017.2/settings64.sh
@@ -77,10 +77,10 @@ of a [script](https://github.com/bol-van/extract-symvers-ng).
 [PC] $ make silentoldconfig prepare headers_install scripts
 ```
 
-10. Run `make` inside this repo directory to build the kernel module (`hello.ko`):
+10. Navigate to the `hello` directory and run `make` to build the kernel module (`hello.ko`):
 
 ```
-[PC] $ cd ..
+[PC] $ cd ../hello
 [PC] $ make
 ```
 
