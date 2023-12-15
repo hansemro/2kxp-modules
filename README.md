@@ -10,6 +10,20 @@ of exported function symbols to prevent kernel ABI incompatibility) and placing 
 the kernel source tree. This file can be recovered from the original kernel image and with a help
 of a [script](https://github.com/bol-van/extract-symvers-ng).
 
+## Example modules
+
+This repo provides the following module examples:
+
+- [hello](./hello) : prints a greeting when loaded and unloaded
+- [ax88179_178a_usbnet](./ax88179_178a_usbnet) : AX88179/AX88178a USB Ethernet interface driver from kernel tree
+
+## Build requirements
+
+- Arm GNU Linux toolchain (`arm-xilinx-linux-gnueabi`)
+    - https://github.com/Kayuii/arm_xilinx_linux_gnueabi
+        - Recommended: `2011.09-50` branch
+    - Xilinx SDK / PetaLinux Tools
+
 ## Build steps
 
 1. Clone this repo with [linux-xlnx](https://github.com/Xilinx/linux-xlnx) submodule:
@@ -61,10 +75,9 @@ of a [script](https://github.com/bol-van/extract-symvers-ng).
 [PC] $ python2 extract-symvers.py -b 32 -B 0x40008000 mtd1.bin > Module.symvers.scope
 ```
 
-8. Source Xilinx SDK (2017.2) shell environment (provides arm toolchain), and set `ARCH` and `CROSS_COMPILE` environment variables:
+8. Assuming `arm-xilinx-linux-gnueabi` toolchain is found in PATH, define `ARCH` and `CROSS_COMPILE` environment variables:
 
 ```
-[PC] $ source /opt/Xilinx/SDK/2017.2/settings64.sh
 [PC] $ export CROSS_COMPILE=arm-xilinx-linux-gnueabi-
 [PC] $ export ARCH=arm
 ```
