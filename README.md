@@ -16,6 +16,7 @@ This repo provides the following module examples:
 
 - [hello](./hello) : prints a greeting when loaded and unloaded
 - [ax88179_178a_usbnet](./ax88179_178a_usbnet) : AX88179/AX88178a USB Ethernet interface driver from kernel tree
+- [ext4](./ext4) : EXT4 filesystem driver from kernel tree
 
 ## Build requirements
 
