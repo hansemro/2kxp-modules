@@ -15,8 +15,8 @@ of a [script](https://github.com/bol-van/extract-symvers-ng).
 1. Clone this repo with [linux-xlnx](https://github.com/Xilinx/linux-xlnx) submodule:
 
 ```
-[PC] $ git clone [this_git_repo] 2kxp_test_module
-[PC] $ cd 2kxp_test_module
+[PC] $ git clone https://github.com/hansemro/2kxp-modules.git
+[PC] $ cd 2kxp-modules
 [PC] $ git submodule update --init --recursive
 ```
 
