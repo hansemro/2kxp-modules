@@ -1,7 +1,16 @@
 Building A Kernel Module for Siglent SDS2000X+
 ==============================================
 
-# Build steps
+This repo outlines steps to build, load/unload, and monitor kernel modules for SDS2000X+ scope
+without access to the vendor kernel source tree. With some changes, one can build kernel modules
+to add support for mounting EXT4 filesystems, bringing up USB Ethernet interfaces, and more.
+
+We can build kernel modules by recovering Modules.symvers file (which contains a list of CRC values
+of exported function symbols to prevent kernel ABI incompatibility) and placing it at the root of
+the kernel source tree. This file can be recovered from the original kernel image and with a help
+of a [script](https://github.com/bol-van/extract-symvers-ng).
+
+## Build steps
 
 1. Clone this repo with [linux-xlnx](https://github.com/Xilinx/linux-xlnx) submodule:
 
@@ -19,6 +28,10 @@ Building A Kernel Module for Siglent SDS2000X+
 ```
 
 3. Get telnet shell access to scope (on 1.3.9R10/R12) if not already.
+
+```
+[PC] $ telnet <scope_address>
+```
 
 4. Get kernel image version:
 
