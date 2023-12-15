@@ -142,3 +142,63 @@ This should also print the following kernel message:
 ```
 <6>[9540.972893] Goodbye world
 ```
+
+## Building kernel driver module for USB gigabit ethernet adapter support
+
+This short guide demonstrates how to support [Amazon Basics USB 3.0 Gigabit Ethernet Adapter](https://www.amazon.com/AmazonBasics-1000-Gigabit-Ethernet-Adapter/dp/B00M77HMU0)
+for the SDS2000X+ scope. This particular adapter uses AX88179 USB-Ethernet controller, which has
+its own kernel driver `ax88179_178a`.
+
+To build this module, let's copy hello directory as a template, and create a link to `ax88179_178a.c`:
+
+```
+[PC] $ make -C hello clean
+[PC] $ cp -r hello usb_eth
+[PC] $ cd usb_eth
+[PC] $ ln -s ../linux/drivers/net/usb/ax88179_178a.c .
+```
+
+Then add/set `ax88179_178a.o` object entry as shown in the following Makefile diff:
+
+```patch
+  obj-m = hello.o
++ obj-m += ax88179_178a.o
+```
+
+Running make reveals some unhandled references to `usbnet.c` and `mii.c`, so add their links and Makefile entries.
+
+```
+[PC] $ ln -s ../linux/drivers/net/usb/usbnet.c .
+[PC] $ ln -s ../linux/drivers/net/mii.c .
+```
+
+```patch
+  obj-m = hello.o
++ obj-m += mii.o
++ obj-m += usbnet.o
+  obj-m += ax88179_178a.o
+```
+
+Run `make`, copy the .ko files to the scope, and load them with insmod:
+
+```
+[scope] # insmod mii.ko
+[scope] # insmod usbnet.ko
+[scope] # insmod ax88179_178a.ko
+```
+
+Once loaded, the USB ethernet adapter can now be detected successfully as `eth1`:
+
+```
+[scope] # ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+    link/ether 74:5b:c5:22:79:59 brd ff:ff:ff:ff:ff:ff
+    inet 169.254.149.18/16 brd 169.254.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+    link/ether 00:50:b6:20:f5:5d brd ff:ff:ff:ff:ff:ff
+```
