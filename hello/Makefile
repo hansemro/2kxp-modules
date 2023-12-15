@@ -1,13 +1,14 @@
 obj-m = hello.o
 
-KERNEL_SOURCE ?= linux
+# Path to kernel source tree
+KERNEL_SOURCE ?= $(PWD)/../linux
+# Path to recovered Modules.symvers file
+MODULE_SYMVERS ?= $(PWD)/../Module.symvers.scope
 
 .PHONY: all
-all: hello.ko
-
-hello.ko:
+all:
 	rm -f $(KERNEL_SOURCE)/Module.symvers
-	cp Module.symvers.scope $(KERNEL_SOURCE)/Module.symvers
+	cp $(MODULE_SYMVERS) $(KERNEL_SOURCE)/Module.symvers
 	make -C $(KERNEL_SOURCE)/ M=$(PWD) modules
 	modprobe --dump-modversions hello.ko
 
