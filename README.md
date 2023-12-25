@@ -126,7 +126,7 @@ After loading the kernel module in another telnet session, we should see live ou
 
 ## Unloading the kernel module
 
-On SDS2000X+, the base root filesystem is read-only including /lib/modules/, which prevents rmmod from working correctly.
+On SDS2000X+, the base root filesystem is immutable including /lib/modules/, which prevents rmmod from working correctly.
 
 ```
 [scope] # rmmod hello
@@ -166,7 +166,7 @@ its own kernel driver `ax88179_178a`.
 To build this module, let's copy hello directory as a template, and create a link to `ax88179_178a.c`:
 
 ```
-[PC] $ make -C hello clean
+[PC] $ cd hello && make clean && cd ..
 [PC] $ cp -r hello usb_eth
 [PC] $ cd usb_eth
 [PC] $ ln -s ../linux/drivers/net/usb/ax88179_178a.c .
